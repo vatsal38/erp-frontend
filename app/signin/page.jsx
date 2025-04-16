@@ -51,14 +51,14 @@ const Login = () => {
 
         {/* Email */}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Email</label>
+          <label className="block text-sm font-medium mb-1">Username</label>
           <input
-            type="email"
+            type="text"
             placeholder="admin@admin.com"
             className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring ${
               errors.username ? "border-red-500" : "border-gray-300"
             }`}
-            {...register("username", { required: "Email is required" })}
+            {...register("username", { required: "Username is required" })}
           />
           {errors.username && (
             <p className="text-xs text-red-500 mt-1">

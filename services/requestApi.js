@@ -6,7 +6,7 @@ class DataService {
     return http.post(`auth/login`, data);
   }
   Signup(data) {
-    return http.post(`auth/signup`, data);
+    return http.post(`auth/register`, data);
   }
   Summary(token) {
     return http.get(`dashboard/summary`, {

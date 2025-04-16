@@ -1,11 +1,16 @@
 "use client";
+import { CallDeleteSales, CallSignup } from "@/_ServerActions";
+import { handleCommonErrors } from "@/utils/handleCommonErrors";
 import { Button } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaGoogle, FaFacebookF } from "react-icons/fa";
 
 const Signup = () => {
+  const route = useRouter();
   const {
     register,
     handleSubmit,
@@ -17,18 +22,23 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (dt) => {
     setLoading(true);
     const payload = {
-      username: data.username,
-      password: data.password,
+      username: dt.username,
+      password: dt.password,
+      role: "sales",
     };
-    console.log("Payload:", payload);
-    // Send payload to backend (axios or fetch)
-    setTimeout(() => {
-      setLoading(false);
-      alert("Signup successful!");
-    }, 1000);
+    try {
+      const { data, error } = await CallSignup(payload);
+      if (data) {
+        toast.success(data?.message);
+        route.push("/signin");
+      }
+      if (error) handleCommonErrors(error);
+    } catch (err) {
+      console.log("Delete Error:", err);
+    }
   };
 
   return (
@@ -44,9 +54,9 @@ const Signup = () => {
           </p>
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Email</label>
+          <label className="block text-sm font-medium mb-1">Username</label>
           <input
-            type="email"
+            type="text"
             placeholder="vatsal9999.vm@yopmail.com"
             className={`w-full border rounded px-3 py-2 text-sm focus:outline-none ${
               errors.username ? "border-red-500" : "border-gray-300"

@@ -35,6 +35,9 @@ async function generateServerAction(func, token, ...args) {
   return responseObj;
 }
 
+export const CallSignup = async (data) =>
+  await generateServerAction(DataService.Signup, false, data);
+
 export const CallDashboardSummary = async () =>
   await generateServerAction(DataService.Summary, true);
 
